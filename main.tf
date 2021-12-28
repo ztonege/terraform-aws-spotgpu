@@ -139,7 +139,7 @@ resource "aws_spot_instance_request" "aws_dl_custom_spot" {
   }
 
   tags = {
-    Name = var.name
+    Name = terraform.workspace
   }
 
   # Workaround to make sure the spot request tags are propogated down to the instance itself.

@@ -46,7 +46,6 @@ variable "my_key_pair_name" {
   description = "The name of the SSH key to install onto the instances."
 }
 
-
 variable "instance_type" {
   type        = string
   default     = "c5a.xlarge"
@@ -76,9 +75,4 @@ variable "num_instances" {
   type        = string
   default     = "1"
   description = "The number of AWS EC2 instances to provision."
-}
-
-variable "name" {
-  type        = string
-  description = "The tagged Name for the created AWS EC2 instance."
 }
