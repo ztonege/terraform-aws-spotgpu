@@ -21,7 +21,7 @@ resource "aws_vpc" "main_vpc" {
   instance_tenancy     = "default"
   enable_dns_hostnames = true
 
-  tags {
+  tags = {
     Name = "main_vpc"
   }
 }
@@ -29,7 +29,7 @@ resource "aws_vpc" "main_vpc" {
 resource "aws_internet_gateway" "main_vpc_igw" {
   vpc_id = aws_vpc.main_vpc.id
 
-  tags {
+  tags = {
     Name = "main_vpc_igw"
   }
 }
@@ -42,7 +42,7 @@ resource "aws_default_route_table" "main_vpc_default_route_table" {
     gateway_id = aws_internet_gateway.main_vpc_igw.id
   }
 
-  tags {
+  tags = {
     Name = "main_vpc_default_route_table"
   }
 }
@@ -52,7 +52,7 @@ resource "aws_subnet" "main_vpc_subnet" {
   cidr_block              = var.my_cidr_block
   map_public_ip_on_launch = true
   availability_zone       = local.avail_zone
-  tags {
+  tags = {
     Name = "main_vpc_subnet"
   }
 }
@@ -80,7 +80,7 @@ resource "aws_default_network_acl" "main_vpc_nacl" {
     to_port    = 0
   }
 
-  tags {
+  tags = {
     Name = "main_vpc_nacl"
   }
 }
@@ -115,7 +115,7 @@ resource "aws_default_security_group" "main_vpc_security_group" {
     "0.0.0.0/0"]
   }
 
-  tags {
+  tags = {
     Name = "main_vpc_security_group"
   }
 }
@@ -130,12 +130,14 @@ resource "aws_spot_instance_request" "aws_dl_custom_spot" {
   count                       = var.num_instances
   security_groups             = ["${aws_default_security_group.main_vpc_security_group.id}"]
   subnet_id                   = aws_subnet.main_vpc_subnet.id
-  ebs_block_device = [{
+
+  ebs_block_device {
     device_name = "/dev/sdh"
-    volume_size = "${var.ebs_volume_size}"
-    volume_type = "gp2"
-  }]
-  tags {
+    volume_size = var.ebs_volume_size
+    volume_type = "gp3"
+  }
+
+  tags = {
     Name = "aws_dl_custom_spot"
   }
 }

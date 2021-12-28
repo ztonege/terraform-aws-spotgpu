@@ -31,7 +31,7 @@ variable "my_cidr_block" {
 
 variable "my_key_pair_name" {
   type        = string
-  default     = "vi-test"
+  default     = "admin"
   description = "The name of the SSH key to install onto the instances."
 }
 
@@ -42,14 +42,14 @@ variable "ssh-key-dir" {
 
 variable "instance_type" {
   type        = string
-  default     = "p2.xlarge"
+  default     = "c5a.xlarge"
   description = "The instance type to provision the instances from (i.e. p2.xlarge)."
 
 }
 
 variable "spot_price" {
   type        = string
-  default     = "0.30"
+  default     = "0.04"
   description = "The maximum hourly price (bid) you are willing to pay for the specified instance, i.e. 0.10. This price should not be below AWS' minimum spot price for the instance based on the region."
 }
 
@@ -61,7 +61,7 @@ variable "ebs_volume_size" {
 
 variable "ami_id" {
   type        = string
-  default     = "ami-4c5c6e29" # Default AWS Deep Learning AMI (Ubuntu)
+  default     = "ami-0476bba883df7cca6" # Default AWS Deep Learning AMI (Ubuntu)
   description = "The AMI ID to use for each instance. The AMI ID will be different depending on the region, even though the name is the same."
 }
 
