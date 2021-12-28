@@ -7,6 +7,17 @@
 # Author: Vithursan Thangarasa (vithursant)
 # ----------------------------------------#
 
+# No need to add since using env variables directly.
+# variable "aws_access_key" {
+#   type        = string
+#   description = "The AWS access key used for tagging instances"
+# }
+
+# variable "aws_secret_key" {
+#   type        = string
+#   description = "The AWS secret key used for tagging instances"
+# }
+
 variable "my_region" {
   type        = string
   default     = "us-east-2"
@@ -35,10 +46,6 @@ variable "my_key_pair_name" {
   description = "The name of the SSH key to install onto the instances."
 }
 
-variable "ssh-key-dir" {
-  default     = "~/.ssh/"
-  description = "The path to SSH keys - include ending '/'"
-}
 
 variable "instance_type" {
   type        = string
@@ -69,4 +76,9 @@ variable "num_instances" {
   type        = string
   default     = "1"
   description = "The number of AWS EC2 instances to provision."
+}
+
+variable "name" {
+  type        = string
+  description = "The tagged Name for the created AWS EC2 instance."
 }
