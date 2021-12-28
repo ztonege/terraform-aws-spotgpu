@@ -139,12 +139,12 @@ resource "aws_spot_instance_request" "aws_dl_custom_spot" {
   }
 
   tags = {
-    Name = "${var.name} ${self.count_index}"
+    Name = var.name
   }
 
   # Workaround to make sure the spot request tags are propogated down to the instance itself.
   provisioner "local-exec" {
-    command = join("", formatlist("aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=\"%s\",Value=\"%s\"; ", keys(self.tags), values(self.tags)))
+    command = join("", formatlist("aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=\"%s\",Value=\"%s_${count.index}\"; ", keys(self.tags), values(self.tags)))
     # No need to add since using env variables directly.
     # environment = {
     #   AWS_ACCESS_KEY_ID     = var.aws_access_key
