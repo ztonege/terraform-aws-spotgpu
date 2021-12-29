@@ -120,14 +120,12 @@ resource "aws_default_security_group" "main_vpc_security_group" {
   }
 }
 
-resource "aws_spot_instance_request" "aws_dl_custom_spot" {
+resource "aws_instance" "aws_dl_on_demand" {
   ami                         = var.ami_id
-  spot_price                  = var.spot_price
   instance_type               = var.instance_type
   key_name                    = var.my_key_pair_name
   monitoring                  = true
   associate_public_ip_address = true
-  wait_for_fulfillment        = true
   count                       = var.num_instances
   security_groups             = ["${aws_default_security_group.main_vpc_security_group.id}"]
   subnet_id                   = aws_subnet.main_vpc_subnet.id
@@ -139,17 +137,7 @@ resource "aws_spot_instance_request" "aws_dl_custom_spot" {
   }
 
   tags = {
-    Name = terraform.workspace
-  }
-
-  # Workaround to make sure the spot request tags are propogated down to the instance itself.
-  provisioner "local-exec" {
-    command = join("", formatlist("aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=\"%s\",Value=\"%s-${count.index}\"; ", keys(self.tags), values(self.tags)))
-    # No need to add since using env variables directly.
-    # environment = {
-    #   AWS_ACCESS_KEY_ID     = var.aws_access_key
-    #   AWS_SECRET_ACCESS_KEY = var.aws_secret_key
-    #   AWS_DEFAULT_REGION    = var.my_region
-    # }
+    Name = "${terraform.workspace}-${count.index}"
   }
 }
+
