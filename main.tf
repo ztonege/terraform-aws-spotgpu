@@ -130,14 +130,26 @@ resource "aws_instance" "aws_dl_on_demand" {
   security_groups             = ["${aws_default_security_group.main_vpc_security_group.id}"]
   subnet_id                   = aws_subnet.main_vpc_subnet.id
 
-  ebs_block_device {
-    device_name = "/dev/sdh"
+  root_block_device {
     volume_size = var.ebs_volume_size
     volume_type = "gp3"
   }
 
+  # Additional Storage
+  # ebs_block_device {
+  #   device_name = "/dev/sdh"
+  #   volume_size = var.ebs_volume_size
+  #   volume_type = "gp3"
+  # }
+
   tags = {
     Name = "${terraform.workspace}-${count.index}"
   }
+}
+
+resource "aws_eip" "eip" {
+  vpc      = true
+  count    = var.num_instances
+  instance = aws_instance.aws_dl_on_demand[count.index].id
 }
 
