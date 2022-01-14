@@ -20,13 +20,13 @@
 
 variable "my_region" {
   type        = string
-  default     = "us-east-2"
+  default     = "us-west-2"
   description = "The AWS region to deploy into (i.e. us-east-1)"
 }
 
 variable "avail_zone" {
   type        = string
-  default     = "us-east-2a"
+  default     = "us-west-2a"
   description = "The AWS availability zone location within the selected region (i.e. us-east-2a)."
 }
 
@@ -48,20 +48,20 @@ variable "my_key_pair_name" {
 
 variable "instance_type" {
   type        = string
-  default     = "c5.large"
+  default     = "p3.2xlarge"
   description = "The instance type to provision the instances from (i.e. p2.xlarge)."
 
 }
 
 variable "ebs_volume_size" {
   type        = string
-  default     = "1"
+  default     = "200"
   description = "The Amazon EBS volume size (1 GB - 16 TB)."
 }
 
 variable "ami_id" {
   type        = string
-  default     = "ami-0476bba883df7cca6" # Default AWS Deep Learning AMI (Ubuntu)
+  default     = "ami-0a852575e28a26249" # Default AWS Deep Learning AMI (Ubuntu)
   description = "The AMI ID to use for each instance. The AMI ID will be different depending on the region, even though the name is the same."
 }
 
